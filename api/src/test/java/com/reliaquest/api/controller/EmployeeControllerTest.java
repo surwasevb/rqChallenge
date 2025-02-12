@@ -4,7 +4,6 @@ import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reliaquest.api.model.Employee;
 import com.reliaquest.api.model.EmployeeCreateRequest;
 import com.reliaquest.api.service.IEmployeeService;
@@ -25,9 +24,6 @@ public class EmployeeControllerTest {
 
     @Mock
     private IEmployeeService employeeService;
-
-    @Mock
-    private ObjectMapper objectMapper;
 
     @InjectMocks
     private EmployeeController employeeController;
@@ -124,8 +120,6 @@ public class EmployeeControllerTest {
                 .title(" Software Engineer")
                 .build();
 
-        Mockito.when(objectMapper.convertValue(employeeCreateRequest.toString(), EmployeeCreateRequest.class))
-                .thenReturn(employeeCreateRequest);
         Mockito.when(employeeService.createEmployee(employeeCreateRequest)).thenReturn(Optional.of(employee));
         ResponseEntity<Employee> responseEntity = employeeController.createEmployee(employeeCreateRequest);
 
