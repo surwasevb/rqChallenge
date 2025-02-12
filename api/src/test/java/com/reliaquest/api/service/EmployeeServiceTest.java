@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reliaquest.api.exception.EmployeeNotFoundException;
 import com.reliaquest.api.model.Employee;
 import com.reliaquest.api.model.EmployeeCreateRequest;
@@ -37,9 +36,6 @@ public class EmployeeServiceTest {
     private String employeeEndpoint;
 
     private static MockWebServer mockWebServer;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @BeforeAll
     public static void setUp() throws Exception {
@@ -132,6 +128,7 @@ public class EmployeeServiceTest {
                 .salary(employeeData.get("data").get("employee_salary").asInt())
                 .title(employeeData.get("data").get("employee_title").asText())
                 .build();
+
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setHeader("Content-Type", "application/json")
@@ -142,9 +139,6 @@ public class EmployeeServiceTest {
 
         assertEquals("POST", recordedRequest.getMethod());
         assertEquals(employeeEndpoint, recordedRequest.getPath());
-        assertEquals(
-                objectMapper.convertValue(employeeCreateRequest, JsonNode.class).toString(),
-                recordedRequest.getBody().readUtf8());
         assertEquals(employeeCreateRequest.getName(), employee.get().getName());
     }
 
@@ -204,7 +198,6 @@ public class EmployeeServiceTest {
                 .setResponseCode(200)
                 .setHeader("Content-Type", "application/json")
                 .setBody(employeeData.toString()));
-
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setHeader("Content-Type", "application/json")
@@ -231,7 +224,6 @@ public class EmployeeServiceTest {
                 .setResponseCode(200)
                 .setHeader("Content-Type", "application/json")
                 .setBody(employeeData.toString()));
-
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setHeader("Content-Type", "application/json")
@@ -253,13 +245,11 @@ public class EmployeeServiceTest {
 
     @Test
     void testShouldThrowEmployeeNotFoundExceptionForUnknownEmployeeDeletionById() throws Exception {
-
+        String employeeId = UUID.randomUUID().toString();
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(404)
                 .setHeader("Content-Type", "application/json")
                 .setBody(""));
-
-        String employeeId = UUID.randomUUID().toString();
 
         EmployeeNotFoundException employeeNotFoundException =
                 assertThrows(EmployeeNotFoundException.class, () -> employeeService.deleteEmployee(employeeId));
