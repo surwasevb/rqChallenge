@@ -71,7 +71,7 @@ public class EmployeeControllerTest {
         ResponseEntity<Employee> responseEntity =
                 employeeController.getEmployeeById(employee.getId().toString());
 
-        assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertSame(responseEntity.getBody(), employee);
     }
 
@@ -91,7 +91,7 @@ public class EmployeeControllerTest {
         Mockito.when(employeeService.getHighestSalaryOfEmployees()).thenReturn(495973);
         ResponseEntity<Integer> responseEntity = employeeController.getHighestSalaryOfEmployees();
 
-        assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(495973, responseEntity.getBody());
     }
 
@@ -104,7 +104,7 @@ public class EmployeeControllerTest {
         Mockito.when(employeeService.getTopTenHighestEarningEmployeeNames()).thenReturn(employees);
         ResponseEntity<List<String>> responseEntity = employeeController.getTopTenHighestEarningEmployeeNames();
 
-        assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(10, Objects.requireNonNull(responseEntity.getBody()).size());
         assertArrayEquals(responseEntity.getBody().toArray(), employees.toArray());
     }
@@ -124,12 +124,11 @@ public class EmployeeControllerTest {
         ResponseEntity<Employee> responseEntity = employeeController.createEmployee(employeeCreateRequest);
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertSame(responseEntity.getBody(), employee);
+        assertSame(employee, responseEntity.getBody());
     }
 
     @Test
     public void testDeleteEmployeeById() {
-
         Employee employee = getEmployee("Test Employee");
 
         Mockito.when(employeeService.deleteEmployee(employee.getId().toString()))
@@ -137,13 +136,12 @@ public class EmployeeControllerTest {
         ResponseEntity<String> responseEntity =
                 employeeController.deleteEmployeeById(employee.getId().toString());
 
-        assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
-        assertSame(responseEntity.getBody(), employee.getName());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertSame(employee.getName(), responseEntity.getBody());
     }
 
     @Test
     public void testDeleteEmployeeByIdNotFound() {
-
         Employee employee = getEmployee("Test Employee");
 
         Mockito.when(employeeService.deleteEmployee(employee.getId().toString()))
