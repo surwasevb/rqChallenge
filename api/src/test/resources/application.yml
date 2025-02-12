@@ -1,4 +1,2 @@
-wiremock.server.baseUrl: http://localhost
 baseUrl: http://localhost:8112
 employeeEndpoint: /api/v1/employee
-wiremock.server.port: 8112
