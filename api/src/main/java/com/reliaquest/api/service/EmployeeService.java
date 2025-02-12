@@ -42,7 +42,7 @@ public class EmployeeService implements IEmployeeService {
                 .getForEntity(employeeEndpoint, EmployeeResponse.class)
                 .getBody();
 
-        if (employeeData == null) {
+        if (employeeData == null || employeeData.getData() == null) {
             logger.error("Failed to get employee information from server");
             throw new EmployeeNotFoundException("Failed to get employee information from server");
         }
@@ -103,31 +103,29 @@ public class EmployeeService implements IEmployeeService {
     public Optional<String> deleteEmployee(String id) {
         logger.info("Calling server apis to delete employee by id: {}", id);
         Optional<Employee> employee = getEmployeeById(id);
-        if (employee.isPresent()) {
-            logger.info(
-                    "Employee found with name: {}, calling delete api to delete that employee",
-                    employee.get().getName());
-            HttpEntity<String> body =
-                    new HttpEntity<>("{\"name\":\"" + employee.get().getName() + "\"}", new HttpHeaders() {
-                        {
-                            set("Content-Type", "application/json");
-                        }
-                    });
 
-            JsonNode result = restTemplate
-                    .exchange(employeeEndpoint, HttpMethod.DELETE, body, JsonNode.class)
-                    .getBody();
-
-            if (Optional.ofNullable(result).map(r -> r.get("data").asBoolean()).orElse(false)) {
-                logger.info("Employee deleted successfully");
-                return Optional.of(employee.get().getName());
-            } else {
-                logger.error("Failed to delete employee");
-                throw new RuntimeException("Failed to delete employee");
-            }
-        } else {
+        if (employee.isEmpty()) {
             logger.error("Employee not found with id: {}", id);
             throw new EmployeeNotFoundException("Employee not found with id: " + id);
+        }
+
+        HttpEntity<String> body =
+                new HttpEntity<>("{\"name\":\"" + employee.get().getName() + "\"}", new HttpHeaders() {
+                    {
+                        set("Content-Type", "application/json");
+                    }
+                });
+
+        JsonNode result = restTemplate
+                .exchange(employeeEndpoint, HttpMethod.DELETE, body, JsonNode.class)
+                .getBody();
+
+        if (result != null && result.get("data").asBoolean()) {
+            logger.info("Employee deleted successfully");
+            return Optional.of(employee.get().getName());
+        } else {
+            logger.error("Failed to delete employee");
+            throw new RuntimeException("Failed to delete employee");
         }
     }
 
