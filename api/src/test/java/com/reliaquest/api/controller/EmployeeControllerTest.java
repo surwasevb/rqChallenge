@@ -2,7 +2,6 @@ package com.reliaquest.api.controller;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 
 import com.reliaquest.api.model.Employee;
 import com.reliaquest.api.model.EmployeeCreateRequest;
@@ -16,10 +15,8 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.DirtiesContext;
 
 @SpringBootTest
-@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
 public class EmployeeControllerTest {
 
     @Mock

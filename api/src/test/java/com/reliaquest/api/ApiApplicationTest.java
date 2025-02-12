@@ -5,7 +5,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.delete;
 import static com.reliaquest.api.util.ApiConstants.*;
 import static com.reliaquest.api.util.FileUtil.readEmployeeDataFromFile;
 import static com.reliaquest.api.util.FileUtil.readSingleEmployeeResponseFromFile;
-import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -26,7 +25,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.wiremock.spring.ConfigureWireMock;
 import org.wiremock.spring.EnableWireMock;
@@ -34,7 +32,6 @@ import org.wiremock.spring.EnableWireMock;
 @SpringBootTest
 @AutoConfigureMockMvc
 @EnableWireMock(@ConfigureWireMock(name = "localhost", port = 8112))
-@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
 public class ApiApplicationTest {
 
     @Autowired

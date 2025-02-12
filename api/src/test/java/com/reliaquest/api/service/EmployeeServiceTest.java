@@ -5,7 +5,6 @@ import static com.reliaquest.api.util.FileUtil.readSingleEmployeeResponseFromFil
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.reliaquest.api.exception.EmployeeNotFoundException;
@@ -23,10 +22,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
 public class EmployeeServiceTest {
 
     @Autowired
