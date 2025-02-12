@@ -152,7 +152,7 @@ public class EmployeeService implements IEmployeeService {
 
     private List<Employee> processResponse(EmployeeResponse response) {
         logger.info("Processing response to list of employees data");
-        List<Employee> data = objectMapper.convertValue(response.getData(), new TypeReference<List<Employee>>() {});
+        List<Employee> data = objectMapper.convertValue(response.getData(), new TypeReference<>() {});
         logger.info("Successfully processed response to list of employees data: employee count: {}", data.size());
         return data;
     }
