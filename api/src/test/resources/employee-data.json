@@ -1,0 +1,11 @@
+{
+  "data": {
+    "id": "21b65cc7-f88e-4b1c-a4ff-e8043e82c2d6",
+    "employee_name": "Carolyne Koss",
+    "employee_salary": 460996,
+    "employee_age": 64,
+    "employee_title": "Senior Advertising Architect",
+    "employee_email": "fixflex@company.com"
+  },
+  "status": "Successfully processed request."
+}
